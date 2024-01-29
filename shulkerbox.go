@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func Shulkerbox(boxes [][]byte, search string) int {
+func ShulkerBox(boxes [][]byte, search string) int {
 	var count = 0
 	for i := 0; i < len(boxes); i++ {
 		_, _ = jsonparser.ArrayEach(boxes[i], func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
