@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func chest(chests [][]byte, search string) (int, [][]byte) {
+func Chest(chests [][]byte, search string) (int, [][]byte) {
 	var count = 0
 	var boxes [][]byte
 	for i := 0; i < len(chests); i++ {
