@@ -5,6 +5,9 @@ import (
 	"strconv"
 )
 
+// Hopper takes in a 2D slice of hoppers and a string to search for.
+// Finds the count of that item in the hoppers.
+// Returns the count and shulker boxes.
 func Hopper(hoppers [][]byte, search string) (int, [][]byte) {
 	count := 0
 	var boxes [][]byte

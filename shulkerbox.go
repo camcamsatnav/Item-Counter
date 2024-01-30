@@ -5,6 +5,9 @@ import (
 	"strconv"
 )
 
+// ShulkerBox takes in a 2D slice of shulkerboxes and a string to search for.
+// Finds the count of that item in the boxes.
+// Returns the count.
 func ShulkerBox(boxes [][]byte, search string) int {
 	count := 0
 	for i := 0; i < len(boxes); i++ {

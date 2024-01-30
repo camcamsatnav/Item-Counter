@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/midnightfreddie/nbt2json"
 	"os"
@@ -9,12 +10,27 @@ import (
 )
 
 func main() {
+	// get the flags from command line
+	givenSearch := flag.String("s", "", "search item")
+	givenDir := flag.String("d", "", "directory")
+	flag.Parse()
+
+	if *givenSearch == "" || *givenDir == "" {
+		fmt.Println("Usage: main.exe -s <search item> -d <directory>")
+		return
+	}
+
 	nbt2json.UseJavaEncoding()
 	totalCount := 0
-	dirName := "C:\\Users\\camde\\AppData\\Roaming\\PrismLauncher\\instances\\1.20.2\\.minecraft\\saves\\CAMCAM WORLD\\region"
+	//escape the blackslashes
+	dirName := strings.Replace(*givenDir, "\\", "\\\\", -1) + "\\\\region"
+	//adding minecraft:
+	search := "minecraft:" + *givenSearch
 
+	// channel for the total number of items
 	ch := make(chan int)
 	var wg sync.WaitGroup
+
 	dir, _ := os.ReadDir(dirName)
 	for _, file := range dir {
 		wg.Add(1)
@@ -24,11 +40,10 @@ func main() {
 			fileInfo, err := os.Stat(dirName + "\\" + file.Name())
 			fatal(err)
 			if fileInfo.Size() == 0 {
-				//fmt.Println(file.Name() + " is empty")
 				return
 			}
 			if fileInfo.Size() != 0 && strings.Contains(file.Name(), ".mca") {
-				ch <- ItemExtractor(dirName+"\\"+file.Name(), "minecraft:redstone")
+				ch <- ItemExtractor(dirName+"\\"+file.Name(), search)
 			}
 		}()
 	}
@@ -39,7 +54,7 @@ func main() {
 	for i := range ch {
 		totalCount += i
 	}
-	fmt.Println(totalCount)
+	fmt.Println(search + ": " + fmt.Sprint(totalCount))
 }
 
 func fatal(err error) {

@@ -11,6 +11,9 @@ import (
 	"sync"
 )
 
+// ItemExtractor takes in a region file and a string to search for.
+// Finds the count of that item in the chests, hoppers, and shulker boxes.
+// Returns the count.
 func ItemExtractor(file string, search string) int {
 	var chests [][]byte
 	var hoppers [][]byte
@@ -76,13 +79,11 @@ func ItemExtractor(file string, search string) int {
 	count = ShulkerBox(boxes, search)
 	totalCount += count
 
-	//if totalCount > 0 {
-	//	fmt.Println(file, totalCount)
-	//}
-
 	return totalCount
 }
 
+// processChunk takes in a chunk, a channel for each block entity type, and a waitgroup.
+// Finds the block entities and sends them to the appropriate channel.
 func processChunk(chunk []byte, ch chan []byte, ch2 chan []byte, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var c save.Chunk

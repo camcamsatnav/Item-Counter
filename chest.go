@@ -5,6 +5,9 @@ import (
 	"strconv"
 )
 
+// Chest takes in a 2D slice of chests and a string to search for.
+// Finds the count of that item in the chests.
+// Returns the count and shulker boxes.
 func Chest(chests [][]byte, search string) (int, [][]byte) {
 	count := 0
 	var boxes [][]byte
