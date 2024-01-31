@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/buger/jsonparser"
 	"strconv"
+	"strings"
 )
 
 // Chest takes in a 2D slice of chests and a string to search for.
@@ -18,10 +19,11 @@ func Chest(chests [][]byte, search string) (int, [][]byte) {
 				res2, _, _, _ := jsonparser.Get(value, "[2]", "value")
 				temp, _ := strconv.Atoi(string(res2))
 				count += temp
-			} else if string(res) == "minecraft:white_shulker_box" {
+			} else if strings.HasSuffix(string(res), "shulker_box") {
 				boxes = append(boxes, value)
 			}
 		}, "nbt", "[4]", "value", "list")
+
 	}
 	return count, boxes
 }
